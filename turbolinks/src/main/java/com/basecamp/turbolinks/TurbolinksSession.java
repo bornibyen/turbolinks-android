@@ -22,6 +22,7 @@ import android.webkit.WebViewClient;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>The main concrete class to use Turbolinks 5 in your app.</p>
@@ -282,6 +283,10 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
      * @param location The URL to visit.
      */
     public void visit(String location) {
+        visit(location, new HashMap<String, String>());
+    }
+
+    public void visit(String location, Map<String, String> additionalHttpHeaders) {
         TurbolinksLog.d("visit called");
 
         this.location = location;
@@ -298,7 +303,7 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
 
         if (!turbolinksIsReady && !coldBootInProgress) {
             TurbolinksLog.d("Cold booting: " + location);
-            webView.loadUrl(location);
+            webView.loadUrl(location, additionalHttpHeaders);
         }
 
         // Reset so that cached snapshot is not the default for the next visit
